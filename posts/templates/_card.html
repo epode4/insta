@@ -2,7 +2,7 @@
     <div class="card-header">
         <p>
             <img src="{{post.user.profile_image.url}}" class="rounded-circle"  width="40px" alt="">
-            {{post.user}}
+            <a href="{% url 'accounts:profile' username=post.user %}">{{post.user}}</a>
         </p>
     </div>
     <img src="{{post.image.url}}" alt="...">
