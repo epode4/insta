@@ -18,7 +18,9 @@ def create(request):
         form = PostForm(request.POST, request.FILES)
 
         if form.is_valid():
-            form.save()
+            post = form.save(commit=False)
+            post.user = request.user
+            post.save()
             return redirect('posts:index')
 
     else:
