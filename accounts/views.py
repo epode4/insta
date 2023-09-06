@@ -3,6 +3,7 @@ from .forms import CustomUserCreationForm, CustomAuthenticationForm
 from django.contrib.auth import login as auth_login
 from django.contrib.auth import get_user_model
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth import logout as auth_logout
 
 # Create your views here.
 
@@ -71,3 +72,9 @@ def follow(request, username):
         me.followings.add(you)
 
     return redirect('accounts:profile', username=username)
+
+@login_required
+def logout(request):
+    auth_logout(request)
+
+    return redirect('posts:index')
