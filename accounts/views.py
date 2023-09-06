@@ -48,8 +48,14 @@ def profile(request, username):
 
     user_info = User.objects.get(username=username)
 
+    posts = user_info.post_set.all().order_by('-created_at')
+    # posts = Post.objects.get(user_id=user_info.id)
+    # posts = user_info.post_set.all()
+
+
     context ={
-        'user_info': user_info
+        'user_info': user_info,
+        'posts': posts,
     }
 
     return render(request, 'accounts/profile.html', context)

@@ -1,4 +1,7 @@
 {% load bootstrap5 %}
+{% load static %}
+<link rel="stylesheet" href="{% static 'css/style.css' %}">
+
 <div class="card" style="width: 18rem;">
     <div class="card-header">
         <p>
@@ -20,10 +23,12 @@
         명이 좋아합니다.
 
         <p class="card-text">{{post.content}}</p>
-        <p class="card-text">{{post.created_at|timesince}}</p>
+        <p class="card-text oneline">{{post.created_at|timesince}}</p>
         <!-- <a href="#" class="btn btn-primary">Go somewhere</a> -->
         {% if user == post.user %}
-            <a href="{% url 'posts:post_delete' post_id=post.id %}" class="text-reset text-decoration-none">삭제</a>
+            <a href="{% url 'posts:post_delete' post_id=post.id %}"
+            class="text-reset text-decoration-none btn btn-light btn-sm oneline" 
+            style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;">삭제</a>
         {% endif %}
     </div>
 
@@ -38,10 +43,15 @@
         {% endif %}
 
         {% for comment in post.comment_set.all %}
-            <li>{{comment.user}} : {{comment.content}}</li>
+            <li style="list-style: none;">
+            <img src="{{comment.user.profile_image.url}}" class="rounded-circle" width="30px" alt="" style="display: inline;">
+            {{comment.user}} : {{comment.content}}
             {% if comment.user == user %}
-                <a href="{% url 'posts:comment_delete' post_id=post.id id=comment.id %}" class="text-reset text-decoration-none">삭제</a>
+                <a href="{% url 'posts:comment_delete' post_id=post.id id=comment.id %}"
+                class="text-reset text-decoration-none btn btn-outline-secondary"
+                style="--bs-btn-padding-y: .125rem; --bs-btn-padding-x: .25rem; --bs-btn-font-size: .75rem;">삭제</a>
             {% endif %}
+            </li>
         {% endfor %}
     </div>
 </div>

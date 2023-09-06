@@ -4,20 +4,21 @@
 
 <div class="row">
     <div class="col-4">
-        <img src="{{user_info.profile_image.url}}" alt="" class="img-fluid rounded-circle">
+        <img src="{{user_info.profile_image.url}}" alt="" class="img-fluid rounded-circle" width="200px">
     </div>
     <div class="col-8">
         <div class="row">
             <div class="col-3">{{user_info.username}}</div>
             <!-- user : 로그인한 사람 / user_info : profile 계정 유저 -->
             {% if user != user_info %}
-                <div class="col-4">
-                    {% if user in user_info.followers.all %}
-                        <a href="{% url 'accounts:follow' username=user_info.username %}" class="btn btn-primary btn-sm">팔로잉</a>
-                    {% else %}
-                        <a href="{% url 'accounts:follow' username=user_info.username %}" class="btn btn-secondary btn-sm">팔로우</a>
-                    {% endif %}
-                </div>
+            <div class="col-4">
+                {% if user in user_info.followers.all %}
+                <a href="{% url 'accounts:follow' username=user_info.username %}" class="btn btn-primary btn-sm">팔로잉</a>
+                {% else %}
+                <a href="{% url 'accounts:follow' username=user_info.username %}"
+                    class="btn btn-secondary btn-sm">팔로우</a>
+                {% endif %}
+            </div>
             {% endif %}
         </div>
         <div class="row">
@@ -27,14 +28,17 @@
         </div>
     </div>
 </div>
+<br>
 
 <div class="row row-cols-3">
-    {% for post in user_info.post_set.all %}
+    {% for post in posts %}
+    <a href="{% url 'posts:detail' post_id=post.id%}">
         <div class="col">
-            <div class="card">
+            <div class="card rounded-0">
                 <img src="{{post.image.url}}" alt="">
             </div>
         </div>
+    </a>
     {% endfor %}
 </div>
 

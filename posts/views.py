@@ -107,7 +107,36 @@ def post_delete(request, post_id):
 
 def comment_delete(request, post_id, id):
     comment = Comment.objects.get(id=id)
-
+    
     comment.delete()
 
     return redirect('posts:index')
+
+
+def detail(request, post_id):
+    post = Post.objects.get(id=post_id)
+    comment_form = CommentForm()
+
+    context = {
+        'post': post,
+        'comment_form': comment_form,
+    }
+
+    return render(request, 'detail.html', context)
+
+@login_required
+def detail_comment(request, post_id):
+    comment_form = CommentForm(request.POST)
+
+    if comment_form.is_valid():
+        comment = comment_form.save(commit=False)
+        comment.user= request.user
+
+        post = Post.objects.get(id=post_id)
+        comment.post = post
+
+        # comment.post_id = post_id
+
+        comment.save()
+
+        return redirect('posts:detail', post_id=post_id)

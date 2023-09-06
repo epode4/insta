@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+
+{% block body %}
+
+{% include '_detailcard.html' %}
+
+<script>
+    const likeButtons = document.querySelectorAll('i.heart')
+    // console.log(likeButtons)
+
+    likeButtons.forEach((likeButton) => {
+        // console.log(likeButton)
+        likeButton.addEventListener('click',(event) => {
+            let postId = event.target.dataset.postId
+            // console.log(postId)
+
+            likeRequest(event.target, postId)
+        })
+    })
+
+    let likeRequest = async (button, postId) => {
+        console.log(button, postId)
+        // django 서버에 요청을 보낸다
+        let likeURL = `/posts/${postId}/like-async/`
+        let response =  await fetch(likeURL)
+        let result = await response.json()
+
+        console.log(result)
+
+        // django 서버의 응답에 따라 좋아요 버튼을 수정한다
+        if (result.status) {
+            // true : 좋아요가 눌린 경우
+            button.classList.remove('bi-heart')
+            button.classList.add('bi-heart-fill')
+            button.style.color = 'red'
+            button.innerHTML = result.count
+        } else {
+            // false : 좋아요 취소
+            button.classList.remove('bi-heart-fill')
+            button.classList.add('bi-heart')
+            button.style.color = 'black'
+            button.innerHTML = result.count
+        }
+    }
+
+</script>
+
+{% endblock %}
