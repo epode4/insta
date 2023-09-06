@@ -100,9 +100,15 @@ def like_async(request, post_id):
 def post_delete(request, post_id):
     post = Post.objects.get(id=post_id)
 
+    username = request.user
+
     post.delete()
 
-    return redirect('posts:index')
+    if 'detail' in request.META.get('HTTP_REFERER'):
+        return redirect('accounts:profile', username=username)
+
+    else:
+        return redirect('posts:index')
 
 
 def comment_delete(request, post_id, id):
@@ -110,7 +116,11 @@ def comment_delete(request, post_id, id):
     
     comment.delete()
 
-    return redirect('posts:index')
+    if 'detail' in request.META.get('HTTP_REFERER'):
+        return redirect('posts:detail', post_id=post_id)
+
+    else:
+        return redirect('posts:index')
 
 
 def detail(request, post_id):

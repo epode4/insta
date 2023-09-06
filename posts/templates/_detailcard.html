@@ -27,6 +27,11 @@
                 <p style="display: inline;">{{post.content}}</p>
                 <p class="right" style="display: inline;">{{post.created_at|timesince}}</p>
                 </p>
+                {% if user == post.user %}
+                <a href="{% url 'posts:post_delete' post_id=post.id %}"
+                    class="text-reset text-decoration-none btn btn-light btn-sm oneline right"
+                    style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;">삭제</a>
+                {% endif %}
             </div>
             <hr>
             <div class="card-body">
@@ -35,12 +40,12 @@
                     <li class="list-group-item" style="list-style: none;">
                         <img src="{{comment.user.profile_image.url}}" class="rounded-circle" width="30px" alt=""
                             style="display: inline;">
-                        {{comment.user}} : {{comment.content}} 
+                        {{comment.user}} : {{comment.content}}
                         {% if comment.user == user %}
-                        <a href="{% url 'posts:comment_delete' post_id=post.id id=comment.id %}"
-                        class="text-reset text-decoration-none btn btn-outline-secondary right"
-                        style="--bs-btn-padding-y: .125rem; --bs-btn-padding-x: .25rem; --bs-btn-font-size: .75rem;">삭제</a>
-                        {% endif %} 
+                        <a href="{% url 'posts:comment_delete' post_id=post.id id=comment.id %}?next=/detail/"
+                            class="text-reset text-decoration-none btn btn-outline-secondary right"
+                            style="--bs-btn-padding-y: .125rem; --bs-btn-padding-x: .25rem; --bs-btn-font-size: .75rem;">삭제</a>
+                        {% endif %}
                         <p class="right">{{comment.created_at|timesince}}</p>
                     </li>
                     {% endfor %}
