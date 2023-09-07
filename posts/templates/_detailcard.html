@@ -61,7 +61,7 @@
                 {% endif %}
                 명이 좋아합니다.
             </div>
-            <form action="{% url 'posts:detail_comment' post_id=post.id %} " method="POST">
+            <form action="{% url 'posts:comment_create' post_id=post.id %} " method="POST" class="commentform">
                 {% csrf_token %}
                 {% bootstrap_form comment_form %}
                 <input type="submit">

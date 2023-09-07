@@ -52,7 +52,11 @@ def comment_create(request, post_id):
 
         comment.save()
 
-        return redirect('posts:index')
+        if 'detail' in request.META.get('HTTP_REFERER'):
+            return redirect('posts:detail', post_id=post_id)
+
+        else:
+            return redirect('posts:index')
 
 @login_required
 def like(request, post_id):
@@ -133,20 +137,3 @@ def detail(request, post_id):
     }
 
     return render(request, 'detail.html', context)
-
-@login_required
-def detail_comment(request, post_id):
-    comment_form = CommentForm(request.POST)
-
-    if comment_form.is_valid():
-        comment = comment_form.save(commit=False)
-        comment.user= request.user
-
-        post = Post.objects.get(id=post_id)
-        comment.post = post
-
-        # comment.post_id = post_id
-
-        comment.save()
-
-        return redirect('posts:detail', post_id=post_id)

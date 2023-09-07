@@ -1,6 +1,8 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block body %}
+<link rel="stylesheet" href="{% static 'css/style.css' %}">
 
 <div class="row">
     <div class="col-4">
@@ -8,7 +10,7 @@
     </div>
     <div class="col-8">
         <div class="row">
-            <div class="col-3">{{user_info.username}}</div>
+            <div class="col-3 proname">{{user_info.username}}</div>
             <!-- user : 로그인한 사람 / user_info : profile 계정 유저 -->
             {% if user != user_info %}
             <div class="col-4">
@@ -22,9 +24,9 @@
             {% endif %}
         </div>
         <div class="row">
-            <div class="col">게시물 {{user_info.post_set.all|length}}</div>
-            <div class="col">팔로워 {{user_info.followers.all|length}}</div>
-            <div class="col">팔로우 {{user_info.followings.all|length}}</div>
+            <div class="col pro">게시물 {{user_info.post_set.all|length}}</div>
+            <div class="col pro">팔로워 {{user_info.followers.all|length}}</div>
+            <div class="col pro">팔로우 {{user_info.followings.all|length}}</div>
         </div>
     </div>
 </div>

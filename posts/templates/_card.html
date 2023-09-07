@@ -27,14 +27,14 @@
         <!-- <a href="#" class="btn btn-primary">Go somewhere</a> -->
         {% if user == post.user %}
             <a href="{% url 'posts:post_delete' post_id=post.id %}"
-            class="text-reset text-decoration-none btn btn-light btn-sm oneline" 
+            class="text-reset text-decoration-none btn btn-light btn-sm oneline right" 
             style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;">삭제</a>
         {% endif %}
     </div>
 
     <div class="card-footer">
         {% if user.is_authenticated %}
-            <form action="{% url 'posts:comment_create' post_id=post.id %} " method="POST">
+            <form action="{% url 'posts:comment_create' post_id=post.id %} " method="POST" class="commentform">
                 {% csrf_token %}
                 {% bootstrap_form comment_form %}
                 <input type="submit">
@@ -48,7 +48,7 @@
             {{comment.user}} : {{comment.content}}
             {% if comment.user == user %}
                 <a href="{% url 'posts:comment_delete' post_id=post.id id=comment.id %}?next=/index/"
-                class="text-reset text-decoration-none btn btn-outline-secondary"
+                class="text-reset text-decoration-none btn btn-outline-secondary right"
                 style="--bs-btn-padding-y: .125rem; --bs-btn-padding-x: .25rem; --bs-btn-font-size: .75rem;">삭제</a>
             {% endif %}
             </li>
